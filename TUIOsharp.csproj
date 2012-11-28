@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{991D2B96-AB5C-42CC-B536-38D7DDBBF970}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TUIOsharp</RootNamespace>
+    <AssemblyName>TUIOsharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OSCsharp\Net\IPServer.cs" />
+    <Compile Include="OSCsharp\Net\TcpConnection.cs" />
+    <Compile Include="OSCsharp\Net\TcpConnectionEventArgs.cs" />
+    <Compile Include="OSCsharp\Net\TcpDataReceivedEventArgs.cs" />
+    <Compile Include="OSCsharp\Net\TcpServer.cs" />
+    <Compile Include="OSCsharp\Net\TransmissionType.cs" />
+    <Compile Include="OSCsharp\Net\UdpDataReceivedEventArgs.cs" />
+    <Compile Include="OSCsharp\Net\UdpServer.cs" />
+    <Compile Include="OSCsharp\OscBundle.cs" />
+    <Compile Include="OSCsharp\OscBundleReceivedEventArgs.cs" />
+    <Compile Include="OSCsharp\OscClient.cs" />
+    <Compile Include="OSCsharp\OscMessage.cs" />
+    <Compile Include="OSCsharp\OscMessageReceivedEventArgs.cs" />
+    <Compile Include="OSCsharp\OscPacket.cs" />
+    <Compile Include="OSCsharp\OscPacketReceivedEventArgs.cs" />
+    <Compile Include="OSCsharp\OscServer.cs" />
+    <Compile Include="OSCsharp\OscTimeTag.cs" />
+    <Compile Include="OSCsharp\Utils\Assert.cs" />
+    <Compile Include="OSCsharp\Utils\ExceptionEventArgs.cs" />
+    <Compile Include="OSCsharp\Utils\SubArray.cs" />
+    <Compile Include="OSCsharp\Utils\Utility.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
