@@ -14,7 +14,7 @@ using System.Net;
 using OSCsharp;
 using OSCsharp.Utils;
 
-namespace TuioSharp {
+namespace TUIOsharp {
     public class TuioServer
     {
         #region Private vars
