@@ -18,13 +18,13 @@ namespace TUIOsharp {
     public class TuioServer
     {
         #region Private vars
-        private readonly OscServer oscServer;
+        private OscServer oscServer;
 
-        private readonly Dictionary<int, TuioCursor> cursors = new Dictionary<int, TuioCursor>();
+        private Dictionary<int, TuioCursor> cursors = new Dictionary<int, TuioCursor>();
 
-        private readonly List<TuioCursor> updatedCursors = new List<TuioCursor>();
-        private readonly List<int> addedCursors = new List<int>();
-        private readonly List<int> removedCursors = new List<int>();
+        private List<TuioCursor> updatedCursors = new List<TuioCursor>();
+        private List<int> addedCursors = new List<int>();
+        private List<int> removedCursors = new List<int>();
         #endregion
 
         #region Public properties
