@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright (C) 2012 Interactive Lab
+ * Copyright (C) 2012 Valentin Simonov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -15,9 +15,9 @@ using OSCsharp;
 using OSCsharp.Utils;
 
 namespace TUIOsharp {
-    public class TuioServer
-    {
+    public class TuioServer {
         #region Private vars
+
         private OscServer oscServer;
 
         private Dictionary<int, TuioCursor> cursors = new Dictionary<int, TuioCursor>();
@@ -25,33 +25,54 @@ namespace TUIOsharp {
         private List<TuioCursor> updatedCursors = new List<TuioCursor>();
         private List<int> addedCursors = new List<int>();
         private List<int> removedCursors = new List<int>();
+
+        private float movementThreshold = 0;
+        private float movementThresholdSq = 0;
+
         #endregion
 
         #region Public properties
+
+        public float MovementThreshold {
+            get { return movementThreshold; }
+            set {
+                movementThreshold = value;
+                movementThresholdSq = value*value;
+            }
+        }
+
         public int Port { get; private set; }
         public int FrameNumber { get; private set; }
+
         #endregion
 
         #region Events
+
         public event EventHandler<TuioCursorEventArgs> CursorAdded;
         public event EventHandler<TuioCursorEventArgs> CursorUpdated;
         public event EventHandler<TuioCursorEventArgs> CursorRemoved;
+
         #endregion
 
         #region Constructors
+
         public TuioServer() : this(3333) {}
 
         public TuioServer(int port) {
             Port = port;
+
+            MovementThreshold = 0;
 
             oscServer = new OscServer(TransportType.Udp, IPAddress.Any, Port) {FilterRegisteredMethods = false, ConsumeParsingExceptions = false};
             oscServer.BundleReceived += OscServerOnBundleReceived;
             oscServer.MessageReceived += OscServerOnMessageReceived;
             oscServer.ReceiveErrored += OscServerOnReceiveErrored;
         }
+
         #endregion
 
         #region Public methods
+
         public void Connect() {
             if (!oscServer.IsRunning) oscServer.Start();
         }
@@ -59,9 +80,11 @@ namespace TUIOsharp {
         public void Disconnect() {
             if (oscServer.IsRunning) oscServer.Stop();
         }
+
         #endregion
 
         #region Private functions
+
         private void parseOscMessage(OscMessage message) {
             switch (message.Address) {
                 case "/tuio/2Dcur":
@@ -77,7 +100,15 @@ namespace TUIOsharp {
                             if (!cursors.TryGetValue(id, out cursor)) {
                                 cursor = new TuioCursor(id);
                             }
-                            if (xPos != cursor.X || yPos != cursor.Y) {
+                            var updated = false;
+                            var delta = cursor.X - xPos;
+                            if (delta*delta >= movementThresholdSq) {
+                                updated = true;
+                            } else {
+                                delta = cursor.Y - yPos;
+                                if (delta*delta >= movementThresholdSq) updated = true;
+                            }
+                            if (updated) {
                                 cursor.Update(xPos, yPos);
                                 updatedCursors.Add(cursor);
                             }
@@ -120,9 +151,11 @@ namespace TUIOsharp {
                     break;
             }
         }
+
         #endregion
 
         #region Event handlers
+
         private void OscServerOnReceiveErrored(object sender, ExceptionEventArgs exceptionEventArgs) {}
 
         private void OscServerOnBundleReceived(object sender, OscBundleReceivedEventArgs oscBundleReceivedEventArgs) {}
@@ -130,6 +163,7 @@ namespace TUIOsharp {
         private void OscServerOnMessageReceived(object sender, OscMessageReceivedEventArgs oscMessageReceivedEventArgs) {
             parseOscMessage(oscMessageReceivedEventArgs.Message);
         }
+
         #endregion
     }
 
