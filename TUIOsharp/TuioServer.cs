@@ -106,17 +106,9 @@ namespace TUIOsharp
                             {
                                 cursor = new TuioCursor(id);
                             }
-                            var updated = false;
-                            var delta = cursor.X - xPos;
-                            if (delta*delta >= movementThresholdSq)
-                            {
-                                updated = true;
-                            } else
-                            {
-                                delta = cursor.Y - yPos;
-                                if (delta*delta >= movementThresholdSq) updated = true;
-                            }
-                            if (updated)
+                            var deltaX = cursor.X - xPos;
+                            var deltaY = cursor.Y - yPos;
+                            if (deltaX * deltaX + deltaY * deltaY >= movementThresholdSq)
                             {
                                 cursor.Update(xPos, yPos);
                                 updatedCursors.Add(cursor);
