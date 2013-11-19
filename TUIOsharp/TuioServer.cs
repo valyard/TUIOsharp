@@ -4,8 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
-using OSCsharp;
+using OSCsharp.Data;
+using OSCsharp.Net;
 using OSCsharp.Utils;
 
 namespace TUIOsharp
@@ -14,7 +14,7 @@ namespace TUIOsharp
     {
         #region Private vars
 
-        private OscServer oscServer;
+        private UDPReceiver udpReceiver;
 
         private Dictionary<int, TuioCursor> cursors = new Dictionary<int, TuioCursor>();
 
@@ -49,6 +49,7 @@ namespace TUIOsharp
         public event EventHandler<TuioCursorEventArgs> CursorAdded;
         public event EventHandler<TuioCursorEventArgs> CursorUpdated;
         public event EventHandler<TuioCursorEventArgs> CursorRemoved;
+        public event EventHandler<ExceptionEventArgs> ErrorOccured;
 
         #endregion
 
@@ -63,10 +64,9 @@ namespace TUIOsharp
 
             MovementThreshold = 0;
 
-            oscServer = new OscServer(TransportType.Udp, IPAddress.Any, Port) {FilterRegisteredMethods = false, ConsumeParsingExceptions = false};
-            oscServer.BundleReceived += OscServerOnBundleReceived;
-            oscServer.MessageReceived += OscServerOnMessageReceived;
-            oscServer.ReceiveErrored += OscServerOnReceiveErrored;
+            udpReceiver = new UDPReceiver(Port, false);
+            udpReceiver.MessageReceived += handlerOscMessageReceived;
+            udpReceiver.ErrorOccured += handlerOscErrorOccured;
         }
 
         #endregion
@@ -75,12 +75,12 @@ namespace TUIOsharp
 
         public void Connect()
         {
-            if (!oscServer.IsRunning) oscServer.Start();
+            if (!udpReceiver.IsRunning) udpReceiver.Start();
         }
 
         public void Disconnect()
         {
-            if (oscServer.IsRunning) oscServer.Stop();
+            if (udpReceiver.IsRunning) udpReceiver.Stop();
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace TUIOsharp
                             }
                             var deltaX = cursor.X - xPos;
                             var deltaY = cursor.Y - yPos;
-                            if (deltaX * deltaX + deltaY * deltaY >= movementThresholdSq)
+                            if (deltaX*deltaX + deltaY*deltaY >= movementThresholdSq)
                             {
                                 cursor.Update(xPos, yPos);
                                 updatedCursors.Add(cursor);
@@ -164,13 +164,12 @@ namespace TUIOsharp
 
         #region Event handlers
 
-        private void OscServerOnReceiveErrored(object sender, ExceptionEventArgs exceptionEventArgs)
-        {}
+        private void handlerOscErrorOccured(object sender, ExceptionEventArgs exceptionEventArgs)
+        {
+            if (ErrorOccured != null) ErrorOccured(this, exceptionEventArgs);
+        }
 
-        private void OscServerOnBundleReceived(object sender, OscBundleReceivedEventArgs oscBundleReceivedEventArgs)
-        {}
-
-        private void OscServerOnMessageReceived(object sender, OscMessageReceivedEventArgs oscMessageReceivedEventArgs)
+        private void handlerOscMessageReceived(object sender, OscMessageReceivedEventArgs oscMessageReceivedEventArgs)
         {
             parseOscMessage(oscMessageReceivedEventArgs.Message);
         }
