@@ -35,9 +35,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\TuioBlob.cs" />
+    <Compile Include="Entities\TuioObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TuioCursor.cs" />
-    <Compile Include="TuioEntity.cs" />
+    <Compile Include="Entities\TuioCursor.cs" />
+    <Compile Include="Entities\TuioEntity.cs" />
     <Compile Include="TuioServer.cs" />
   </ItemGroup>
   <ItemGroup>
