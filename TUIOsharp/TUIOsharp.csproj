@@ -35,6 +35,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProcessors\BlobProcessor.cs" />
+    <Compile Include="DataProcessors\CursorProcessor.cs" />
+    <Compile Include="DataProcessors\IDataProcessor.cs" />
+    <Compile Include="DataProcessors\ObjectProcessor.cs" />
     <Compile Include="Entities\TuioBlob.cs" />
     <Compile Include="Entities\TuioObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
