@@ -40,7 +40,7 @@ namespace TUIOsharp.DataProcessors
 
         public void ProcessMessage(OscMessage message)
         {
-            if (message.Address != "/tuio/2Dcur") return;
+            if (message.Address != "/tuio/2Dblb") return;
 
             var command = message.Data[0].ToString();
             switch (command)
