@@ -84,8 +84,10 @@ namespace TUIOsharp.DataProcessors
                 case "fseq":
                     if (message.Data.Count < 2) return;
                     FrameNumber = (int)message.Data[1];
-                    foreach (var updatedBlob in updatedBlobs)
+                    var count = updatedBlobs.Count;
+                    for (var i = 0; i < count; i++)
                     {
+                        var updatedBlob = updatedBlobs[i];
                         if (addedBlobs.Contains(updatedBlob.Id) && !blobs.ContainsKey(updatedBlob.Id))
                         {
                             blobs.Add(updatedBlob.Id, updatedBlob);
@@ -96,8 +98,10 @@ namespace TUIOsharp.DataProcessors
                             if (BlobUpdated != null) BlobUpdated(this, new TuioBlobEventArgs(updatedBlob));
                         }
                     }
-                    foreach (var blobId in removedBlobs)
+                    count = removedBlobs.Count;
+                    for (var i = 0; i < count; i++)
                     {
+                        var blobId = removedBlobs[i];
                         blob = blobs[blobId];
                         blobs.Remove(blobId);
                         if (BlobRemoved != null) BlobRemoved(this, new TuioBlobEventArgs(blob));

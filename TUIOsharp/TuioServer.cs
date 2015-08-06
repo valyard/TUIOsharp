@@ -86,9 +86,10 @@ namespace TUIOsharp
         {
             if (message.Data.Count == 0) return;
 
-            foreach (var processor in processors)
+            var count = processors.Count;
+            for (var i = 0; i < count; i++)
             {
-                processor.ProcessMessage(message);
+                processors[i].ProcessMessage(message);
             }
         }
 

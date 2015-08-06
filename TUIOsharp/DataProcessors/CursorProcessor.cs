@@ -78,8 +78,10 @@ namespace TUIOsharp.DataProcessors
                 case "fseq":
                     if (message.Data.Count < 2) return;
                     FrameNumber = (int)message.Data[1];
-                    foreach (var updatedCursor in updatedCursors)
+                    var count = updatedCursors.Count;
+                    for (var i = 0; i < count; i++)
                     {
+                        var updatedCursor = updatedCursors[i];
                         if (addedCursors.Contains(updatedCursor.Id) && !cursors.ContainsKey(updatedCursor.Id))
                         {
                             cursors.Add(updatedCursor.Id, updatedCursor);
@@ -90,8 +92,10 @@ namespace TUIOsharp.DataProcessors
                             if (CursorUpdated != null) CursorUpdated(this, new TuioCursorEventArgs(updatedCursor));
                         }
                     }
-                    foreach (var cursorId in removedCursors)
+                    count = removedCursors.Count;
+                    for (var i = 0; i < count; i++)
                     {
+                        var cursorId = removedCursors[i];
                         cursor = cursors[cursorId];
                         cursors.Remove(cursorId);
                         if (CursorRemoved != null) CursorRemoved(this, new TuioCursorEventArgs(cursor));
