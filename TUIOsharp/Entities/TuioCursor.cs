@@ -18,7 +18,7 @@ namespace TUIOsharp.Entities
             X = x;
             Y = y;
             VelocityX = velocityX;
-            VelocityY = velocityX;
+            VelocityY = velocityY;
             Acceleration = acceleration;
         }
 

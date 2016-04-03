@@ -30,7 +30,7 @@ namespace TUIOsharp.Entities
             Y = y;
             Angle = angle;
             VelocityX = velocityX;
-            VelocityY = velocityX;
+            VelocityY = velocityY;
             RotationVelocity = rotationVelocity;
             Acceleration = acceleration;
             RotationAcceleration = rotationAcceleration;
