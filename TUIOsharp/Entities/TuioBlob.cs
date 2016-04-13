@@ -37,7 +37,7 @@ namespace TUIOsharp.Entities
             Height = height;
             Area = area;
             VelocityX = velocityX;
-            VelocityY = velocityX;
+            VelocityY = velocityY;
             RotationVelocity = rotationVelocity;
             Acceleration = acceleration;
             RotationAcceleration = rotationAcceleration;
